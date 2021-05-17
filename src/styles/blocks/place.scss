@@ -1,0 +1,170 @@
+.place {
+  margin-bottom: 20vw;
+
+  &__title-wrapper {
+    padding: 120px 5%;
+  }
+
+  //Main title of the page//
+  &__title {
+    @include fontRZ-regular;
+    font-size: 8vw;
+  }
+
+  &__info {
+    margin-bottom: 100px;
+  }
+
+  // Title above the middle line //
+  &__pictures-title {
+    @include fontRZ-regular;
+    text-align: center;
+    font-size: calc(0.5rem + 1.2vw);
+    margin-bottom: 50px;
+  }
+
+  &__pictures {
+    position: relative;
+  }
+
+  // Line in the middle of pictures //
+  &__pictures-line {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    bottom: 22vw;
+    width: 1px;
+    background-color: $middle-line;
+
+    @media (max-width: $screen-mobile-l-width) {
+      display: none;
+    }
+  }
+
+  // PICTURE LIST //
+  &__pictures-list {
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: $screen-mobile-l-width) {
+      align-items: center;
+    }
+  }
+
+  &__picture-wrapper {
+    position: relative;
+  }
+
+  &__picture-wrapper:nth-child(even) {
+    text-align: right;
+
+    @media (max-width: $screen-mobile-l-width) {
+      text-align: auto;
+      align-self: center;
+    }
+  }
+
+  &__picture-wrapper + &__picture-wrapper {
+    margin-top: -10vw;
+
+    @media (max-width: $screen-mobile-l-width) {
+      margin-top: 20px;
+    }
+  }
+
+  &__picture-link {
+    display: inline-block;
+    overflow: hidden;
+    width: 38vw;
+    height: 40vw;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: $middle-line-dot;
+      top: 45%;
+      right: 50%;
+      margin: -3px;
+      transition: all 0.1s ease;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      border: 1px solid $middle-line-dot;
+      background-color: transparent;
+      top: 45%;
+      right: 50%;
+      margin: -3px;
+      transition: all 0.1s ease-in 0.1s;
+    }
+
+    @media (max-width: $screen-mobile-l-width) {
+      width: 70vw;
+      height: 80vw;
+
+      &::after,
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  &__picture {
+    object-fit: cover;
+    object-position: 0 -50px;
+    width: 120%;
+    height: 120%;
+
+    @media (max-width: $screen-mobile-l-width) {
+      width: 150%;
+      height: 150%;
+    }
+  }
+
+  // Title of each photo with the dot//
+  &__picture-name {
+    @include fontRZ-regular;
+    font-size: calc(0.6rem + 1vw);
+    position: absolute;
+    top: 42.2%;
+    left: 52vw;
+
+    // Поменять в мобильной версии под фото !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    @media (max-width: $screen-mobile-l-width) {
+      display: none;
+    }
+  }
+
+  //Each even picture name is on the left side //
+  &__picture-wrapper:nth-child(even) &__picture-name {
+    left: auto;
+    width: 100%;
+    right: 52vw;
+
+    @media (max-width: $screen-mobile-l-width) {
+      display: none;
+    }
+  }
+
+  // if hover on picture - animation of round bubble //
+  &__picture-link:hover {
+    &::before {
+      width: 7px;
+      height: 7px;
+      margin: -4px;
+    }
+    &::after {
+      width: 15px;
+      height: 15px;
+      margin: -8px;
+    }
+  }
+}

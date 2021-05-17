@@ -1,0 +1,61 @@
+.animated-svg {
+  &__word-1 {
+    stroke-dasharray: 105px;
+    stroke-dashoffset: 105px;
+    animation: svgText 1s cubic-bezier(.27,.27,.88,.51) forwards;
+  }
+
+  &__word-2 {
+    stroke-dasharray: 118px;
+    stroke-dashoffset: 118px;
+    animation: svgText 1s cubic-bezier(.24,.88,.20,.24) forwards;
+  }
+
+  &__word-2-1 {
+    stroke-dasharray: 40px;
+    stroke-dashoffset: 40px;
+    animation: svgText 1s cubic-bezier(.24,.88,.43,.64) 0.9s forwards;
+  }
+
+  &__word-2-2 {
+    stroke-dasharray: 40px;
+    stroke-dashoffset: 40px;
+    animation: svgText 1s cubic-bezier(.24,.88,.43,.64) 0.9s forwards;
+  }
+
+  &__word-3 {
+    stroke-dasharray: 216px;
+    stroke-dashoffset: 216px;
+    animation: svgText 1s cubic-bezier(.24,.88,.43,.64) forwards;
+  }
+
+  &__word-3-1 {
+    stroke-dasharray: 55px;
+    stroke-dashoffset: 55px;
+    animation: svgText 1s cubic-bezier(.24,.88,.43,.64) 0.7s forwards;
+  }
+
+  &__word-4 {
+    stroke-dasharray: 157px;
+    stroke-dashoffset: 157px;
+    animation: svgText 1s cubic-bezier(.16,.6,.15,.9) forwards;
+  }
+
+  &__word-5 {
+    stroke-dasharray: 157px;
+    stroke-dashoffset: 157px;
+    animation: svgText 1s cubic-bezier(.53,.15,.93,.98) forwards;
+  }
+
+  &__word-5-1 {
+    stroke-dasharray: 157px;
+    stroke-dashoffset: 157px;
+    animation: svgText 1s cubic-bezier(.53,.15,.93,.98) 0.42s forwards;
+  }
+
+  &__word-5-2 {
+    stroke-dasharray: 157px;
+    stroke-dashoffset: 157px;
+    animation: svgText 1s cubic-bezier(.53,.15,.93,.98) 0.42s forwards;
+  }
+}

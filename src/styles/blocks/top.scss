@@ -1,0 +1,120 @@
+.top {
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: $bg-main;
+
+  &__point {
+    position: absolute;
+    opacity: 0;
+    width: 250px;
+    bottom: 70%;
+    left: 10%;
+    color: $font-main-italy;
+    font-size: 1.2rem;
+    z-index: 1;
+    animation: appear 1s ease-in 1s forwards;
+  }
+
+  &__welcome-btn { //Button Explore Italy ///
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 50vw;
+    height: 35%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.5s;
+
+    @media (max-width: $screen-tablet-width) {
+      width: 85vw;
+    }
+  }
+
+  &__welcome-title { // Title EXPLORE//
+    opacity: 0;
+    position: absolute;
+    top: -40%;
+    left: 0;
+    z-index: 5;
+    color: $font-main-italy;
+    text-transform: uppercase;
+    font-size: 70px;
+    animation: appear 1s ease-in 1s forwards;
+    transition: color 1s;
+
+    @media (max-width: $screen-mobile-l-width) {
+      left: -2%;
+      top: -10%;
+      font-size: 50px;
+    }
+  }
+
+  &__svg-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    fill: none;
+  }
+
+  &__svg-stroke {
+    position: absolute;
+    top: 1px;
+    left: 1.5px;
+    width: 100%;
+    z-index: 5;
+  }
+
+// Image on main screen //
+  &__img-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 270px;
+    height: 100%;
+    margin-left: 50%;
+    padding: 0;
+    opacity: 0;
+    border: none;
+    transform: skew(-15deg);
+    animation: appear 1s ease-in 1s forwards;
+  }
+
+  &__img-bg {
+    display: block;
+    object-fit: cover;
+    width: auto;
+    max-width: 700px;
+    height: 130vh;
+    margin-left: -90px;
+    transform: skew(15deg);
+  }
+
+//On welcome btn hover (word Italy)
+  &__welcome-btn:hover &__welcome-title {
+    color: $font-explore-hover;
+  }
+}
+
+
+.hidden .top { //Hide all elements after click on a italy button ///
+  &__point {
+    animation: fadeOut 1s ease-in forwards;
+  }
+
+  &__welcome-btn {
+    animation: fadeOut 1s ease-in forwards;
+  }
+
+  &__img-wrapper {
+    animation: fadeOut 1s ease-in forwards;
+  }
+
+  &__svg-stroke {
+    z-index: 0;
+  }
+}

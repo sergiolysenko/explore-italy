@@ -1,0 +1,27 @@
+//colors//
+$white: #ffffff;
+$white-transparent: rgba(255, 255, 255, 0.049);
+$black: #101010;
+$light-orange: #CD765B;
+$dark-grey-brown: #2c2926;
+$grey: #565252;
+$dark-grey: #312f2f;
+
+//Color scheme
+$font-white: $white;
+$font-main-italy: $dark-grey-brown;
+$font-explore-hover: $light-orange;
+$font-city-page-hover: $light-orange;
+$bg-main: $white;
+$bg-header: $white-transparent;
+$middle-line: $grey;
+$middle-line-dot: $dark-grey;
+$footer-bg: $black;
+$city-page-bg: $black;
+$nav-underline: $black;
+$nav-underline-white: $white;
+$footer-img: url('../../assets/img/italy-bg-2.jpg');
+
+//screen width //
+$screen-tablet-width: 768px;
+$screen-mobile-l-width: 600px;

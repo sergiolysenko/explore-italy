@@ -1,0 +1,44 @@
+.footer {
+  position: relative;
+
+  &__photo {
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    bottom: 0;
+    width: 20vw;
+    height: calc(100px + 20vw);
+    background-image: $footer-img;
+    background-position: left;
+    background-repeat: no-repeat;
+    filter: grayscale(80%);
+
+    @media (max-width: $screen-mobile-l-width) {
+      display: none;
+    }
+  }
+
+  &__main {
+    background-color: $footer-bg;
+    width: 90vw;
+    height: 200px;
+
+    @media (max-width: $screen-mobile-l-width) {
+      width: 100%;
+      height: calc(100px + 20vw);
+    }
+  }
+
+  &__main-wrapper {
+    padding: 40px;
+    color: $font-white;
+  }
+
+  &__name {
+    margin-bottom: 10px;
+  }
+
+  &__contacts-phone {
+    margin-right: 30px;
+  }
+}
