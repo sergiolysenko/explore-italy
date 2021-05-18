@@ -111,16 +111,20 @@
 
   &__explore-link {
     @include fontRZ-regular;
-    display: block;
+    width: 70%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    padding: 5px;
-    top: 44%;
-    left: 50%;
+    top: 40%;
+    left: 23%;
     color: $font-white;
     font-size: 20px;
-    transform: skew(0);
     opacity: 0;
     transition: all 0.5s;
+    backdrop-filter: blur(1px) grayscale(30%);
+    border-radius: 10%;
 
     @media (max-width: $screen-tablet-width) {
       z-index: 50;
@@ -128,6 +132,7 @@
       bottom: 30px;
       top: 30px;
       left: 0;
+      backdrop-filter: blur(0px);
     }
   }
 }
@@ -166,6 +171,8 @@
   opacity: 1;
 
   &:hover {
-    background-color: #000000;
+    backdrop-filter: blur(2px);
+    width: 80%;
+    margin-left: -12%;
   }
 }

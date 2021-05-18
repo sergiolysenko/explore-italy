@@ -1,20 +1,26 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { selectCity } from '../actions';
 
-const ListCity = ({city}) => {
+const ListCity = ({city, selectCity, selectedCity}) => {
   const {name, src, italName, description} = city;
+  const isSelectedCity = selectedCity === city.name;
 
   const onCityClick = (evt) => {
     evt.preventDefault();
-
+    selectCity(name);
   }
 
   return (
-    <div className="cities__card-wrapper">
-      <Link className="cities__explore-link" to={"/place"}>
+    <div
+      onClick={onCityClick}
+      className={`cities__card-wrapper ${isSelectedCity ? 'cities__card-wrapper--active' : ''}`}
+    >
+      <Link className="cities__explore-link" to={`/cities/${city.name}`}>
         <span className="cities__explore-span">Explore</span>
       </Link>
-      <div className="cities__main-link">
+      <div className={`cities__main-link ${isSelectedCity ? 'cities__main-link--active' : ''}`}>
         <div className="cities__picture-wrapper">
           <img className="cities__picture" src={src} alt={name} width=" 1440" height="1024"></img>
         </div>
@@ -27,5 +33,10 @@ const ListCity = ({city}) => {
     </div>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    selectedCity: state.selectedCity
+  }
+}
 
-export default ListCity;
+export default connect(mapStateToProps, { selectCity })(ListCity);

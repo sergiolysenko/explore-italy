@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import ListCity from './ListCity';
 
 const ListCities = ({cities}) => {
@@ -19,4 +21,11 @@ const ListCities = ({cities}) => {
   )
 };
 
-export default ListCities;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    cities: Object.values(state.citiesList)
+  }
+};
+
+export default connect(mapStateToProps)(ListCities);
