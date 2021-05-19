@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectCity } from '../actions';
 
 const ListCity = ({city, selectCity, selectedCity}) => {
   const {name, src, italName, description} = city;
@@ -9,6 +7,9 @@ const ListCity = ({city, selectCity, selectedCity}) => {
 
   const onCityClick = (evt) => {
     evt.preventDefault();
+    if (isSelectedCity) {
+      return selectCity(null);
+    }
     selectCity(name);
   }
 
@@ -17,7 +18,7 @@ const ListCity = ({city, selectCity, selectedCity}) => {
       onClick={onCityClick}
       className={`cities__card-wrapper ${isSelectedCity ? 'cities__card-wrapper--active' : ''}`}
     >
-      <Link className="cities__explore-link" to={`/cities/${city.name}`}>
+      <Link className="cities__explore-link" to={`/cities/${city.name}/places`}>
         <span className="cities__explore-span">Explore</span>
       </Link>
       <div className={`cities__main-link ${isSelectedCity ? 'cities__main-link--active' : ''}`}>
@@ -33,10 +34,5 @@ const ListCity = ({city, selectCity, selectedCity}) => {
     </div>
   )
 }
-const mapStateToProps = (state) => {
-  return {
-    selectedCity: state.selectedCity
-  }
-}
 
-export default connect(mapStateToProps, { selectCity })(ListCity);
+export default ListCity;

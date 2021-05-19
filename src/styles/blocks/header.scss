@@ -40,10 +40,10 @@
       background-color: transparent;
       border: none;
       height: 20px;
-      width: 20px;
+      width: 40px;
       cursor: pointer;
       position: fixed;
-        right: 10%;
+        right: 6%;
         top: 22px;
 
       &:focus {
@@ -188,7 +188,7 @@
 
 //If header have 'white' class - font color is white and background is dark//
 .header--white {
-  background-color: transparent;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8295693277310925) 0%, rgba(0,0,0,0.3449754901960784) 50%, rgba(0,0,0,0) 100%);
   color: $font-white;
 
   .header__nav-item {

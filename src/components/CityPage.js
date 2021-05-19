@@ -1,22 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchCity, fetchCityItems } from './../actions';
 
-const CityPage = ({city, places}) => {
-  const renderPlacesNavList = () => {
-    return places.map((place) => {
-      return (<li key={place.title} className="city-page__sub-nav-item">
-        <Link to="/" className="city-page__sub-nav-link">{place.title}</Link>
+const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
+  useEffect(() => {
+    fetchCity(match.params.name);
+    fetchCityItems(match.params.name, match.params.navItem);
+  }, [fetchCity, fetchCityItems, match.params.name, match.params.navItem]);
+
+  if (!city) {
+    return <div>Loading...</div>
+  }
+
+  const renderItemsNavList = () => {
+    if (!items) {
+      return <div>Loading...</div>
+    }
+
+    return items.map(({title}) => {
+      return (<li key={title} className="city-page__sub-nav-item">
+        <a href={`#${title}`} className="city-page__sub-nav-link">{title}</a>
       </li>)
     });
   };
 
-  const renderPlaceList = () => {
-    return places.map((place) => {
-      const {title, description, pictures} = place;
+  const renderItemList = () => {
+    if (!items) {
+      return <div>Loading...</div>
+    }
 
+    return items.map((items) => {
+      const {title, description, pictures} = items;
       return (
-        <li key={place.title} className="city-page__item city-page-item">
+        <li key={title} id={title} className="city-page__item city-page-item">
           <div className="city-page-item__text-wrapper">
             <h2 className="city-page-item__title">
               {title}
@@ -24,23 +41,28 @@ const CityPage = ({city, places}) => {
             <p className="city-page-item__description">
               {description}
             </p>
-            <Link to="/" className="city-page-item__btn-more">
-              More information and photos
-              <span className="city-page-item__btn-arrow-wrapper">
-                <svg className="city-page-item__btn-arrow" width="24" height="12" viewBox="0 0 24 13" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21.5 7H1V6H21.5L16.5 1H17L22 6L22.5 6.5L22 7L17 12H16L21.5 7Z" fill="black" />
-                  <path d="M21.5 7H1V6H21.5M21.5 7V6M21.5 7L16 12H17L22 7L22.5 6.5L22 6L17 1H16.5L21.5 6"
-                    stroke="black" />
-                </svg>
-              </span>
-            </Link>
+            {match.params.navItem === 'places' ? (
+              <Link to="/" className="city-page-item__btn-more">
+                More information and photos
+                <span className="city-page-item__btn-arrow-wrapper">
+                  <svg className="city-page-item__btn-arrow" width="24" height="12" viewBox="0 0 24 13" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.5 7H1V6H21.5L16.5 1H17L22 6L22.5 6.5L22 7L17 12H16L21.5 7Z" fill="black" />
+                    <path d="M21.5 7H1V6H21.5M21.5 7V6M21.5 7L16 12H17L22 7L22.5 6.5L22 6L17 1H16.5L21.5 6"
+                      stroke="black" />
+                  </svg>
+                </span>
+              </Link>
+            ) : ''}
           </div>
           <div className="city-page-item__picture-wrapper">
-            <picture>
-              <img className="city-page-item__picture" src={pictures[0]}
-                alt="Il Duomo (Milan Cathedral)" width="605" height="971" />
-            </picture>
+            {pictures.length === 0 ? '' : (
+              <picture>
+                <img className="city-page-item__picture" src={pictures[0]}
+                  alt={title} width="605" height="971" />
+              </picture>
+              )
+            }
           </div>
         </li>
       )
@@ -64,19 +86,27 @@ const CityPage = ({city, places}) => {
       <div className="city-page__nav-wrapper">
         <ul className="city-page__nav-list">
           <li className="city-page__nav-item">
-            <a href="city-page-people.html" className="city-page__nav-link">people</a>
+            <Link
+              to={`/cities/${city.name}/places`}
+              onClick={() => fetchCityItems(match.params.name, 'places')}
+              className="city-page__nav-link">places</Link>
           </li>
           <li className="city-page__nav-item">
-            <a href="city-page-history.html" className="city-page__nav-link">history</a>
+            <Link
+              to={`/cities/${city.name}/people`}
+              onClick={() => fetchCityItems(match.params.name, 'people')}
+              className="city-page__nav-link">people</Link>
           </li>
           <li className="city-page__nav-item">
-            <Link to="/" className="city-page__nav-link">places</Link>
+            <Link to={`/cities/${city.name}/history`} className="city-page__nav-link">history</Link>
           </li>
         </ul>
         <div className="city-page__sub-nav">
-          <h2 className="city-page__sub-nav-title">{places.length} best places in Milan</h2>
+          {match.params.navItem === 'history' ? '' : (
+            <h2 className="city-page__sub-nav-title">{items ? items.length : 0} {match.params.navItem} in Milan</h2>
+          )}
           <ul className="city-page__sub-nav-list">
-            {renderPlacesNavList()}
+            {renderItemsNavList()}
           </ul>
         </div>
       </div>
@@ -85,7 +115,7 @@ const CityPage = ({city, places}) => {
       <ul className="city-page__items-list">
         <div className="city-page__items-line">
         </div>
-        {renderPlaceList()}
+        {renderItemList()}
       </ul>
     </section>
   </main>
@@ -95,8 +125,8 @@ const CityPage = ({city, places}) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     city: state.citiesList[ownProps.match.params.name],
-    places: Object.values(state.places[ownProps.match.params.name])
+    items: Object.values(state.cityItems),
   }
 }
 
-export default connect(mapStateToProps)(CityPage);
+export default connect(mapStateToProps, { fetchCity, fetchCityItems })(CityPage);

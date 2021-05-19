@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
+import { fetchCities } from './../actions';
 import ListCity from './ListCity';
 
-const ListCities = ({cities}) => {
-  const renderedCities = cities.map((city) => {
-    return <ListCity key={city.name} city={city}/>
-  });
+const ListCities = ({cities, fetchCities}) => {
+  const [selectedCity, selectCity] = useState(null);
 
+  useEffect(() => {
+    fetchCities();
+  }, [fetchCities])
+
+  const renderedCities = cities.map((city) => {
+    return (
+      <ListCity
+        key={city.name}
+        city={city}
+        selectedCity={selectedCity}
+        selectCity={selectCity}
+      />)
+  });
 
   return (
     <main className="cities">
@@ -22,10 +33,9 @@ const ListCities = ({cities}) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     cities: Object.values(state.citiesList)
   }
 };
 
-export default connect(mapStateToProps)(ListCities);
+export default connect(mapStateToProps, { fetchCities })(ListCities);
