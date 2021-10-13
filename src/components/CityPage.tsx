@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchCity, fetchCityItems } from './../actions';
+import { fetchCity, fetchCityItems } from '../actions';
 
 const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
   useEffect(() => {
@@ -18,8 +18,8 @@ const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
       return <div>Loading...</div>
     }
 
-    return items.map(({title}) => {
-      return (<li key={title} className="city-page__sub-nav-item">
+    return items.map(({title, id}) => {
+      return (<li key={id} className="city-page__sub-nav-item">
         <a href={`#${title}`} className="city-page__sub-nav-link">{title}</a>
       </li>)
     });
@@ -31,9 +31,9 @@ const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
     }
 
     return items.map((items) => {
-      const {title, description, pictures} = items;
+      const {title, description, pictures, id} = items;
       return (
-        <li key={title} id={title} className="city-page__item city-page-item">
+        <li key={id} id={title} className="city-page__item city-page-item">
           <div className="city-page-item__text-wrapper">
             <h2 className="city-page-item__title">
               {title}
@@ -42,7 +42,7 @@ const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
               {description}
             </p>
             {match.params.navItem === 'places' ? (
-              <Link to="/" className="city-page-item__btn-more">
+              <Link to={`./places/${id}`} className="city-page-item__btn-more">
                 More information and photos
                 <span className="city-page-item__btn-arrow-wrapper">
                   <svg className="city-page-item__btn-arrow" width="24" height="12" viewBox="0 0 24 13" fill="none"

@@ -26,7 +26,14 @@ export const fetchCityItems = (city, itemsName) => async dispatch => {
   const itemsSnapshot = await citiesCollection.doc(city).collection(itemsName).get();
   let items = {};
 
-  itemsSnapshot.forEach((doc) => items[doc.id] = doc.data());
+  itemsSnapshot.forEach((doc) => items[doc.id] = {...doc.data(), ...{id: doc.id}});
 
   dispatch({type: FETCH_ITEMS, payload: items});
+}
+
+export const fetchCityItem = (city, itemId) => async dispatch => {
+  const itemSnapshot = await citiesCollection.doc(city).collection('places').doc(itemId).get();
+  const item = {[itemId]: {...itemSnapshot.data(), ...{id: itemSnapshot.id}}};
+
+  dispatch({type: FETCH_ITEMS, payload: item});
 }
