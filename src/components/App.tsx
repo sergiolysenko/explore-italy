@@ -2,11 +2,10 @@ import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from '../history';
 
-import ListCities from './ListCities';
-import StartScreen from './StartScreen';
-import CityPage from './CityPage';
-import Layout from './Layout';
-
+import ListCities from 'components/ListCities';
+import StartScreen from 'components/StartScreen';
+import CityPage from 'components/CityPage';
+import Layout from 'components/Layout';
 import PlacePage from './PlacePage';
 
 const App = () => {

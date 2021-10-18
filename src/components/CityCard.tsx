@@ -1,11 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ListCity = ({city, selectCity, selectedCity}) => {
+export interface City {
+  description: string;
+  italName: string;
+  name: string;
+  src: string;
+}
+
+interface ListCityProps {
+  city: City;
+  selectCity(city: string | null): void;
+  selectedCity: string | null;
+}
+
+const ListCity: React.FC<ListCityProps> = ({city, selectCity, selectedCity}) => {
   const {name, src, italName, description} = city;
   const isSelectedCity = selectedCity === city.name;
 
-  const onCityClick = (evt) => {
+  const onCityClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
     if (isSelectedCity) {
       return selectCity(null);

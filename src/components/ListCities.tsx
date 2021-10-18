@@ -9,21 +9,17 @@ interface City {
   src: string
 }
 
-interface SnapshotData {
-  data(): City
-}
-
 const ListCities = () => {
   const [cities, setCities] = useState<City[]>([]);
-  const [selectedCity, selectCity] = useState(null);
+  const [selectedCity, selectCity] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCities = async () => {
       const listCitiesSnapshot = await citiesCollection.get();
-      const cities: any[] = [];
+      const cities: City[] = [];
 
       listCitiesSnapshot.forEach((doc) => {
-        const data = doc.data();
+        const data = doc.data() as City;
         if (data) {
           cities.push(data)
         }
