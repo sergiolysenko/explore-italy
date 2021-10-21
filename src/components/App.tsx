@@ -14,8 +14,8 @@ const App = () => {
       <Router history={history}>
         <Switch>
           <Route path="/" exact component={StartScreen}/>
+          <Route path="/cities" exact component={ListCities} />
           <Layout>
-            <Route path="/cities" exact component={ListCities} />
             <Route path="/cities/:name/:navItem" exact component={CityPage} />
             <Route path="/cities/:name/places/:placeId" exact component={PlacePage} />
           </ Layout>

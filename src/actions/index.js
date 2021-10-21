@@ -1,4 +1,4 @@
-import firebase from './../firebase';
+/* import firebase from './../firebase';
 import  {
   FETCH_CITIES,
   FETCH_CITY,
@@ -31,9 +31,4 @@ export const fetchCityItems = (city, itemsName) => async dispatch => {
   dispatch({type: FETCH_ITEMS, payload: items});
 }
 
-export const fetchCityItem = (city, itemId) => async dispatch => {
-  const itemSnapshot = await citiesCollection.doc(city).collection('places').doc(itemId).get();
-  const item = {[itemId]: {...itemSnapshot.data(), ...{id: itemSnapshot.id}}};
-
-  dispatch({type: FETCH_ITEMS, payload: item});
-}
+ */

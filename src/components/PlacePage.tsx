@@ -1,33 +1,54 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { fetchCityItem } from 'actions';
+import React, { useEffect, useState } from 'react';
+import { citiesCollection } from 'firebase.js';
 
-interface PlacePageProps {
-  place: {facts: [], pictures: [], title: String, description: String},
+import Loader from 'components/Loader';
+
+interface T {
   match: {
-    params: {name: String, placeId: String},
-  },
-  fetchCityItem?: (city: any, id: any) => {}
+    params: {
+      name: string; 
+      placeId: string;
+    }
+  }
 }
 
-const PlacePage: React.FC<PlacePageProps> = ({ place, match, fetchCityItem }) => {
+interface Place {
+  facts: [];
+  pictures: [];
+  title: string;
+  description: string;
+}
+
+const PlacePage: React.FC<T> = ({ match }) => {
+const [place, setPalce] = useState<Place>({} as Place);
+
   useEffect(() => {
+    const fetchCityItem = async (city: string, itemId: string) => {
+      const itemSnapshot = await citiesCollection.doc(city)
+        .collection('places')
+        .doc(itemId)
+        .get();
+
+      const item = itemSnapshot.data() as Place;
+      setPalce(item);
+    }
+    
     fetchCityItem(match.params.name, match.params.placeId);
     window.scrollTo(0, 0);
-  }, [fetchCityItem, match.params.name, match.params.placeId])
+  }, [match.params.name, match.params.placeId])
 
-  if (!place) {
-    return (<div>Loading...</div> )
+  if (Object.values(place).length === 0) {
+    return <Loader/> 
   }
 
   const renderedFactsList = () => {
-    return place.facts.map((fact, index) => {
+    return place.facts.map((fact: string, index: number) => {
       return (<li key={index} className="info__fact">{fact}</li>)
     });
   }
 
   const renderedPicturesList = () => {
-    return place.pictures.map((picture) => {
+    return place.pictures.map((picture: string) => {
       return (
         <li className="place__picture-wrapper">
           <a href="#s" className="place__picture-link">
@@ -70,10 +91,4 @@ const PlacePage: React.FC<PlacePageProps> = ({ place, match, fetchCityItem }) =>
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    place: state.cityItems[ownProps.match.params.placeId]
-  }
-}
-
-export default connect(mapStateToProps, { fetchCityItem })(PlacePage);
+export default PlacePage;

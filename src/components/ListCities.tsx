@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import CityCard from 'components/CityCard';
 import { citiesCollection } from './../firebase';
+import Loader from 'components/Loader';
 
-interface City {
+export interface City {
   description: string,
   italName: string,
   name: string,
   src: string
 }
 
-const ListCities = () => {
+const ListCities: React.FC = () => {
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, selectCity] = useState<string | null>(null);
 
@@ -30,6 +31,10 @@ const ListCities = () => {
 
     fetchCities();
   }, [])
+
+  if (cities.length === 0) {
+    return <Loader />
+  }
 
   const renderedCities = cities.map((city) => {
     return (

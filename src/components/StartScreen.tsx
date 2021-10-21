@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-const StartScreen = () => {
+const StartScreen: React.FC = () => {
   return (
   <main className="main">
     <h1 className="visually-hidden">Explore Italy!</h1>

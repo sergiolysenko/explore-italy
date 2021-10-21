@@ -1,20 +1,57 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchCity, fetchCityItems } from '../actions';
+import { citiesCollection } from 'firebase.js';
+import { City } from 'components/ListCities';
+import Loader from 'components/Loader';
 
-const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
+interface T {
+  match: {
+    params: {
+      name: string; 
+      placeId: string;
+      navItem: string;
+    }
+  }
+}
+
+interface Item {
+  title: string;
+  description: string;
+  pictures: string[];
+  id: string;
+}
+
+const CityPage: React.FC<T> = ({match}) => {
+  const [city, setCity] = useState<City>({} as City);
+  const [items, setItems] = useState<Item[]>([] as Item[]);
+
   useEffect(() => {
+    const fetchCity = async (city: string) => {
+      const citySnapshot = await citiesCollection.doc(city).get();
+    
+      const cityData = citySnapshot.data() as City;
+      setCity(cityData);
+    }
+
+    const fetchCityItems = async (city: string, itemsName: string) => {
+      const itemsSnapshot = await citiesCollection.doc(city).collection(itemsName).get();
+      let items: Item[] = [];
+      itemsSnapshot.forEach((item) => {
+        items.push({...item.data() as Item, ...{id: item.id}});
+      });
+      setItems(items);
+    }
+
     fetchCity(match.params.name);
     fetchCityItems(match.params.name, match.params.navItem);
-  }, [fetchCity, fetchCityItems, match.params.name, match.params.navItem]);
+  }, [match.params.name, match.params.navItem]);
 
-  if (!city) {
-    return <div>Loading...</div>
+  if (Object.values(city).length === 0) {
+    return <Loader />
   }
 
   const renderItemsNavList = () => {
-    if (!items) {
+    if (!items.length) {
       return <div>Loading...</div>
     }
 
@@ -26,12 +63,13 @@ const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
   };
 
   const renderItemList = () => {
-    if (!items) {
+    if (!items.length) {
       return <div>Loading...</div>
     }
+    console.log(items)
+    return items.map((item) => {
+      const {title, description, pictures, id} = item;
 
-    return items.map((items) => {
-      const {title, description, pictures, id} = items;
       return (
         <li key={id} id={title} className="city-page__item city-page-item">
           <div className="city-page-item__text-wrapper">
@@ -56,12 +94,11 @@ const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
             ) : ''}
           </div>
           <div className="city-page-item__picture-wrapper">
-            {pictures.length === 0 ? '' : (
+            {pictures.length &&
               <picture>
                 <img className="city-page-item__picture" src={pictures[0]}
                   alt={title} width="605" height="971" />
               </picture>
-              )
             }
           </div>
         </li>
@@ -88,13 +125,13 @@ const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
           <li className="city-page__nav-item">
             <Link
               to={`/cities/${city.name}/places`}
-              onClick={() => fetchCityItems(match.params.name, 'places')}
+              // onClick={() => fetchCityItems(match.params.name, 'places')}
               className="city-page__nav-link">places</Link>
           </li>
           <li className="city-page__nav-item">
             <Link
               to={`/cities/${city.name}/people`}
-              onClick={() => fetchCityItems(match.params.name, 'people')}
+              // onClick={() => fetchCityItems(match.params.name, 'people')}
               className="city-page__nav-link">people</Link>
           </li>
           <li className="city-page__nav-item">
@@ -122,11 +159,4 @@ const CityPage = ({match, city, items, fetchCity, fetchCityItems}) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    city: state.citiesList[ownProps.match.params.name],
-    items: Object.values(state.cityItems),
-  }
-}
-
-export default connect(mapStateToProps, { fetchCity, fetchCityItems })(CityPage);
+export default CityPage;

@@ -8,13 +8,13 @@ export interface City {
   src: string;
 }
 
-interface ListCityProps {
+interface CityCardProps {
   city: City;
   selectCity(city: string | null): void;
   selectedCity: string | null;
 }
 
-const ListCity: React.FC<ListCityProps> = ({city, selectCity, selectedCity}) => {
+const CityCard: React.FC<CityCardProps> = ({city, selectCity, selectedCity}) => {
   const {name, src, italName, description} = city;
   const isSelectedCity = selectedCity === city.name;
 
@@ -48,4 +48,4 @@ const ListCity: React.FC<ListCityProps> = ({city, selectCity, selectedCity}) => 
   )
 }
 
-export default ListCity;
+export default CityCard;
